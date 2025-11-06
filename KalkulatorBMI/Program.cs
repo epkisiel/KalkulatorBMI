@@ -3,7 +3,8 @@
     public string BMI { get; set; }
     public double ObliczBMI(double wzrostCm, double wagaKg)
     {
-        return wagaKg / ((wzrostCm / 100) * (wzrostCm / 100));
+        double wzrostM= wzrostCm / 100;
+        return (wagaKg / (wzrostM*wzrostM));
     }
     public string InterpretujBMI(double bmi)
     {
@@ -18,26 +19,32 @@
     }
 }
 
-
-Console.WriteLine("Podaj wzrost:");
-string podanyWzrost = Console.ReadLine();
-while (double.TryParse(podanyWzrost, out double w) == false || w <= 0)
+public class Program
 {
-    Console.WriteLine("Podano nieprawidłowy wzrost. Podaj jeszce raz:");
-    podanyWzrost = Console.ReadLine();
+    private static void Main(string[] args)
+    {
+        Console.WriteLine("Podaj wzrost:");
+        string podanyWzrost = Console.ReadLine();
+        while (double.TryParse(podanyWzrost, out double w) == false || w <= 0)
+        {
+            Console.WriteLine("Podano nieprawidłowy wzrost. Podaj jeszce raz:");
+            podanyWzrost = Console.ReadLine();
+        }
+        double.TryParse(podanyWzrost, out double wzrost);
+        
+        Console.WriteLine("Podaj wagę:");
+        string podanaWaga = Console.ReadLine();
+        while (double.TryParse(podanaWaga, out double w) == false || w <= 0)
+        {
+            Console.WriteLine("Podano nieprawidłową wagę. Podaj jeszce raz:");
+            podanaWaga = Console.ReadLine();
+        }
+        double.TryParse(podanaWaga, out double waga);
+
+
+        var kalkulator = new KalkulatorBMI();
+        double obliczoneBMI = kalkulator.ObliczBMI(wzrost, waga);
+        kalkulator.BMI = kalkulator.InterpretujBMI(obliczoneBMI);
+        Console.WriteLine("BMI: " + obliczoneBMI + " " + kalkulator.BMI);
+    }
 }
-double.TryParse(podanyWzrost, out double wzrost);
-
-Console.WriteLine("Podaj wagę:");
-string podanaWaga = Console.ReadLine();
-while (double.TryParse(podanaWaga, out double w) == false || w <= 0)
-{
-    Console.WriteLine("Podano nieprawidłową wagę. Podaj jeszce raz:");
-    podanaWaga = Console.ReadLine();
-}
-double.TryParse(podanaWaga, out double waga);
-
-
-var kalkulator = new KalkulatorBMI();
-double obliczoneBMI = kalkulator.ObliczBMI(wzrost, waga);
-kalkulator.BMI = kalkulator.InterpretujBMI(obliczoneBMI);
